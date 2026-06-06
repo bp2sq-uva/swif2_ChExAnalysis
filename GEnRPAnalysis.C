@@ -99,8 +99,8 @@ void GEnRPAnalysis( Int_t run_no = 9000 ) {
     C->Add("OUT_DIR/skim_genrp_9000.root");
   }
   else 
-    C->Add(Form("OUT_DIR/skim_genrp_%d_*.root", run_no));
-
+    C->Add("/work/halla/sbs/bhasitha/GENRP_ANALYSIS/swif2_ChExAnalysis/hist/skimh/skim_genrp_PASS1.root","RECREATE");
+    
   TTreeReader Tl(C);
 
   TTreeReaderValue<double> scalhel_hel(Tl, "scalhel_hel");
@@ -147,7 +147,7 @@ void GEnRPAnalysis( Int_t run_no = 9000 ) {
 
   const Int_t nphibins = 36;
 
-  TFile *outfile = new TFile(Form("hist/hist_genrp_%i.root",run_no),"RECREATE");
+  TFile *outfile = new TFile("/work/halla/sbs/bhasitha/GENRP_ANALYSIS/swif2_ChExAnalysis/hist/skim_genrp_PASS1.root","RECREATE");
   
   Double_t Mp        = 0.93827;
   Double_t Eb        = 4.3;  

@@ -8,15 +8,51 @@
 #include <iostream>
 #include <fstream>
 
+#include <string>
+#include <cstring>
+
 using namespace std;
 
 
 //-----------------------------------------------------------------------------------------------------------------------------
 
-void SkimGEnRP( Int_t run_no = 946 ) {
+void SkimGEnRP(int mode = 2,
+               const char *filelist_name = "",
+               const char *outfile_name = "")
+{
+  // TChain* C = new TChain("T");
+  // C->Add(Form("OUT_DIR/e1217004_fullreplay_%d_*.root", run_no));
+  TChain *C = new TChain("T");
 
-  TChain* C = new TChain("T");
-  C->Add(Form("OUT_DIR/e1217004_fullreplay_%d_*.root", run_no));
+  if (strlen(filelist_name) > 0) {
+
+    std::ifstream infile(filelist_name);
+    std::string rootfile;
+    int nfiles = 0;
+
+    while (std::getline(infile, rootfile)) {
+      if (rootfile.size() == 0) continue;
+      if (rootfile[0] == '#') continue;
+
+      C->Add(rootfile.c_str());
+      nfiles++;
+    }
+
+    std::cout << "Added " << nfiles
+              << " ROOT files from " << filelist_name
+              << std::endl;
+
+    if (nfiles == 0) {
+      std::cerr << "ERROR: no input files in "
+                << filelist_name << std::endl;
+      return;
+    }
+
+  }
+  else {
+    std::cerr << "ERROR: filelist_name is empty" << std::endl;
+    return;
+  }
 
   TTreeReader Tl(C);
 
@@ -97,7 +133,8 @@ void SkimGEnRP( Int_t run_no = 946 ) {
 
   const Int_t nphibins = 36;
 
-  TFile *outfile = new TFile(Form("hist/skimh/skim_genrp_%i.root",run_no),"RECREATE");
+  // TFile *outfile = new TFile(Form("hist/skimh/skim_genrp_%i.root",run_no),"RECREATE");
+  TFile *outfile = new TFile(outfile_name, "RECREATE");
 
   TTree* outtree = new TTree("TSkim","Output Tree"); 
   outtree->SetAutoSave(); 

@@ -36,7 +36,7 @@ Int_t rebin = 4;
 
 void PlotGEnRP( Int_t run_no = 9000 ) {
 
-  TFile *f = new TFile(Form("hist/hist_genrp_%i.root",run_no),"READ");
+  TFile *f = new TFile("/work/halla/sbs/bhasitha/GENRP_ANALYSIS/swif2_ChExAnalysis/hist/skim_genrp_PASS1.root","READ");
 
   Double_t pcent   = 2.122;  
   Double_t pres    = 0.02;   
@@ -718,7 +718,7 @@ void PlotGEnRP( Int_t run_no = 9000 ) {
 
   }
 
-  gSystem->Exec(Form("pdfunite  kinem*.pdf pdf/plots_genrp-%d.pdf", run_no));  
+  gSystem->Exec(Form("pdfunite  kinem*.pdf /work/halla/sbs/bhasitha/GENRP_ANALYSIS/swif2_ChExAnalysis/pdf/PASS1.pdf", run_no));  
   gSystem->Exec("rm  kinema*.pdf");  
 
   int run = -1;
